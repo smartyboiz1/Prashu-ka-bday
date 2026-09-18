@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#3E2312">
+<title>Happy Birthday Sasu Maa 🎂</title>
+
+<!--
+  ================================================================
+  ONE external resource is used on this page: a single Google Font
+  ("Baloo 2") for the cute rounded look. Everything else — confetti,
+  animations, the audio player — is plain HTML/CSS/JS, no libraries.
+  If you need this to work 100% offline, just delete the <link>
+  below; the fallback fonts in style.css will be used instead.
+  ================================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<audio id="bgMusic" loop preload="auto"></audio>
+
+<button class="music-toggle" id="musicToggle" aria-label="Mute background music">🔊</button>
+<div class="sticker-counter" id="stickerCounter">🔍 0/3</div>
+
+<div class="story-bar" id="storyBar">
+  <div class="story-seg"><div class="fill"></div></div>
+  <div class="story-seg"><div class="fill"></div></div>
+  <div class="story-seg"><div class="fill"></div></div>
+  <div class="story-seg"><div class="fill"></div></div>
+  <div class="story-seg"><div class="fill"></div></div>
+  <div class="story-seg"><div class="fill"></div></div>
+</div>
+
+<main class="app">
+
+  <!-- ============ SCREEN 1 — IDENTITY CHECK ============ -->
+  <section class="screen active" id="screen-1">
+    <div class="card">
+      <p class="eyebrow">Identity Check 🧐</p>
+      <div class="mascot bounce">🧸</div>
+      <h1>WAIT&hellip; WHO IS THIS GUY?</h1>
+      <p class="q">Are you actually <span class="js-nickname">Sasu Maa</span>?</p>
+
+      <button class="hidden-sticker" data-sticker="0" style="top:8px; right:14px;" aria-label="secret sticker">⭐</button>
+
+      <div class="choice-row">
+        <button class="btn btn-primary" data-action="identity-yes">YES, I AM <span class="js-nickname-upper">SASU MAA</span> 🧸</button>
+        <button class="btn btn-ghost" data-action="identity-no">NO, I AM <span class="js-friendname-upper">PRASHANT</span> THE GADHA 🫏</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 2 — THE 6000 YEAR CONTRACT ============ -->
+  <section class="screen" id="screen-2">
+    <div class="card">
+      <p class="eyebrow">The Contract 📜</p>
+      <div class="mascot bounce">🎂</div>
+      <h1>Do you accept the responsibility of living for 6000 years?</h1>
+      <p id="noHint">Choose wisely bhai&hellip;</p>
+
+      <div class="dodge-wrap" id="dodgeWrap">
+        <button class="btn btn-primary" id="yesBtn">YES &mdash; Obviously 😎</button>
+        <button class="btn btn-ghost btn-no" id="noBtn">NO &mdash; I have plans 💀</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 3 — OUR MEMORY ============ -->
+  <section class="screen" id="screen-3">
+    <div class="card memory-card">
+      <div class="post-header">
+        <div class="avatar-wrap">
+          <span class="avatar-fallback">🧸</span>
+          <img id="friendAvatar" alt="">
+        </div>
+        <div>
+          <p class="post-name" id="postName"></p>
+          <p class="post-meta">Class 8 &middot; Best Friends Era</p>
+        </div>
+      </div>
+
+      <div class="photo-slot">
+        <div class="photo-fallback">📷<br><small>assets/class8.jpg</small></div>
+        <img id="class8Photo" alt="Class 8 handshake memory">
+      </div>
+
+      <button class="hidden-sticker" data-sticker="1" style="top:-10px; left:-6px;" aria-label="secret sticker">🐾</button>
+
+      <p class="unlock-badge" id="unlockBadge">🔓 Memory Unlocked</p>
+      <p class="memory-caption" id="memoryCaption"></p>
+
+      <div class="reactions">
+        <button class="reaction-btn" id="likeBtn">❤️ <span id="likeCount">0</span></button>
+        <button class="reaction-btn" id="laughBtn">😂 <span id="laughCount">0</span></button>
+      </div>
+
+      <div class="comment-strip">
+        <span class="comment-chip">bro remember this?? 😭</span>
+        <span class="comment-chip">iconic handshake fr</span>
+      </div>
+
+      <div class="audio-player" id="audioPlayer">
+        <button class="audio-toggle" id="audioToggle" aria-label="Play voice note">▶</button>
+        <div class="audio-body">
+          <div class="audio-progress-track" id="progressTrack">
+            <div class="audio-progress-fill" id="progressFill"></div>
+          </div>
+          <div class="audio-row-bottom">
+            <span class="mascot small" id="audioMascot">🧸</span>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+          </div>
+        </div>
+        <audio id="bdayAudio" preload="metadata"></audio>
+      </div>
+      <p class="audio-missing-hint" id="audioMissingHint">🎵 Add your voice note at <code>assets/birthday-voice.mp3</code></p>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" data-action="goto-4">Next ➔</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 4 — FUTURE BUSINESS DEAL ============ -->
+  <section class="screen" id="screen-4">
+    <div class="card contract-card">
+      <p class="eyebrow">Future Business Deal 🤝</p>
+      <h1>FUTURE BUSINESS CONTRACT</h1>
+
+      <div class="contract-table">
+        <div class="row"><span>Founder</span><strong id="contractFounder"></strong></div>
+        <div class="row"><span>CEO</span><strong>Me 😎</strong></div>
+        <div class="row"><span>Salary</span><strong>Bhai dekh lenge 😭</strong></div>
+        <div class="row"><span>Company</span><strong>Whatever <span id="founderNameInline"></span> decides to build</strong></div>
+      </div>
+
+      <div class="stamp" id="dealStamp">✅ DEAL SIGNED</div>
+
+      <button class="hidden-sticker" data-sticker="2" style="bottom:6px; right:-8px;" aria-label="secret sticker">🎮</button>
+
+      <div class="choice-row">
+        <button class="btn btn-primary" data-action="accept-deal">ACCEPT DEAL 🤝</button>
+        <button class="btn btn-ghost" data-action="reject-deal">REJECT DEAL ❌</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 5 — CHOOSE YOUR CHARACTER ============ -->
+  <section class="screen" id="screen-5">
+    <div class="card">
+      <p class="eyebrow">One Last Thing 🎮</p>
+      <h1>Choose Your Birthday Ride</h1>
+      <p>Pick your character for this year's chaos:</p>
+
+      <div class="pick-grid" id="pickGrid">
+        <button class="pick-item" data-pick="teddy">🧸<span>Teddy</span></button>
+        <button class="pick-item" data-pick="cat">🐱<span>Cat</span></button>
+        <button class="pick-item" data-pick="car">🏎️<span>Race Car</span></button>
+        <button class="pick-item" data-pick="game">🎮<span>Controller</span></button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="pickContinueBtn" data-action="goto-6" disabled>Continue ➔</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 6 — FINAL BIRTHDAY MESSAGE ============ -->
+  <section class="screen" id="screen-6">
+    <div class="card final-card">
+      <h1 class="final-title">HAPPY BIRTHDAY <span class="js-nickname-upper">SASU MAA</span> 🎂🧸</h1>
+
+      <div class="cake-stage" id="cakeStage">
+
+        <div class="cake-wrap">
+          <div class="cake" aria-hidden="true">
+            <div class="candles-row" id="candlesRow">
+              <div class="candle"><span class="flame"></span></div>
+              <div class="candle"><span class="flame"></span></div>
+              <div class="candle"><span class="flame"></span></div>
+              <div class="candle"><span class="flame"></span></div>
+              <div class="candle"><span class="flame"></span></div>
+            </div>
+            <div class="cake-top"></div>
+            <div class="cake-body">
+              <span class="cake-dot"></span>
+              <span class="cake-dot"></span>
+              <span class="cake-dot"></span>
+            </div>
+            <div class="cake-plate"></div>
+          </div>
+          <button class="btn btn-primary blow-btn" id="blowBtn">💨 Tap to Blow Out the Candles</button>
+          <p class="blow-hint" id="blowHint">Make a wish first&hellip; then blow! 🕯️</p>
+        </div>
+
+        <div class="cake-photos-frame" id="cakePhotosFrame">
+          <div class="final-messages" id="finalMessages"></div>
+        </div>
+
+      </div>
+
+      <p class="survive-line">Congratulations. You have officially survived the birthday website.</p>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="celebrateBtn">🎉 Celebrate Again</button>
+        <button class="btn btn-ghost" id="replayBtn">REPLAY THE CHAOS 🔄</button>
+      </div>
+
+      <audio id="cakeSong" preload="none"></audio>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast-stack" id="toastStack"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
